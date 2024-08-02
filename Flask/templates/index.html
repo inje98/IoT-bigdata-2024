@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>택배함 현황</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 2rem;
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            color: #495057;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        table {
+            margin-top: 1rem;
+        }
+        thead th {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        canvas {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>택배함 현황</h1>
+
+        <!-- 택배함 현황 표 -->
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Box Number</th>
+                    <th>Phone Number</th>
+                    <th>Random Number</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody id="users-table">
+                <!-- 데이터가 여기에 삽입됩니다 -->
+            </tbody>
+        </table>
+
+        <!-- 그래프를 표시할 캔버스 -->
+        <h2>사용자 데이터 그래프</h2>
+        <canvas id="data-chart"></canvas>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                // Fetch user data for the table
+                const usersResponse = await fetch('/users');
+                const usersData = await usersResponse.json();
+
+                // Populate table with user data
+                const tableBody = document.getElementById('users-table');
+                usersData.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.box_num}</td>
+                        <td>${user.phone_num}</td>
+                        <td>${user.rand_num}</td>
+                        <td>${user.created_at}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                // Fetch chart data
+                const chartResponse = await fetch('/data');
+                const chartData = await chartResponse.json();
+
+                // Prepare chart data
+                const ctx = document.getElementById('data-chart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.hour.map(hour => hour < 10 ? `0${hour}:00` : `${hour}:00`), // Format hour labels
+                        datasets: [{
+                            label: 'Count',
+                            data: chartData.count,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return `Count: ${tooltipItem.raw}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Hour'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Count'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // 페이지 로드 시 데이터 가져오기
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+</body>
+</html>
