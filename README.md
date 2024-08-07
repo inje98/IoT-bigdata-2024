@@ -92,11 +92,15 @@
 
 ## 4일차
 - 머신러닝, 딥러닝
-    - [개념]()
-    - [파이토치기본]()
+    - 인공지능 개념 학습
+    - 파이토치 기본설명과 CPU/GPU 라이브러리 설치
+    - [개념](https://github.com/inje98/IoT-bigdata-2024/blob/main/day4/dba08_ml_dl_concept.ipynb)
+    - [파이토치기본](https://github.com/inje98/IoT-bigdata-2024/blob/main/day4/dba09_Pytorch_start.ipynb)
     - [회귀분석]()
 
-
 ## 5일차
+- 머신러닝, 딥러닝
+    - [파이토치기본](https://github.com/inje98/IoT-bigdata-2024/blob/main/day5/dba10_pytorch_basic.ipynb)
+    - [회귀분석](https://github.com/inje98/IoT-bigdata-2024/blob/main/day5/dba11_linear_regression.ipynb)
 
 ## 6일차
