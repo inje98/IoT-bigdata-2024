@@ -104,6 +104,10 @@
     - [회귀분석](https://github.com/inje98/IoT-bigdata-2024/blob/main/day5/dba11_linear_regression.ipynb)
 
 ## 6일차
+- 계속
+    - [회귀분석](https://github.com/inje98/IoT-bigdata-2024/blob/main/day5/dba11_linear_regression.ipynb)
+
+## 7일차
 - 머신러닝, 딥러닝
     - CNN(Convolutional NN)
     - 이미지 분류 ..
